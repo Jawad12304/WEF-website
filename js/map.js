@@ -11,11 +11,33 @@ function initECDMap() {
   const mapElement = document.getElementById('map');
   if (!mapElement) return;
 
-  // 1. Initialize Map with a default view (will be auto-centered later)
+  // 1. Define multiple base layers (Street, Satellite, Hybrid, Terrain views)
+  const streetMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
+  });
+
+  const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  });
+
+  const hybridMap = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    attribution: 'Map data &copy; Google'
+  });
+
+  const terrainMap = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    attribution: 'Map data &copy; Google'
+  });
+
+  // Initialize Map with default Street Map view
   const map = L.map('map', {
     zoomSnap: 0.5,
     zoomDelta: 0.5,
-    scrollWheelZoom: false // Disable scroll zoom by default for better user scrolling experience
+    scrollWheelZoom: false, // Disable scroll zoom by default for better user scrolling experience
+    layers: [streetMap]
   }).setView([35.85, 71.8], 10);
 
   // Enable scroll zoom on click / focus to make it interactive when intended
@@ -26,11 +48,14 @@ function initECDMap() {
     map.scrollWheelZoom.disable();
   });
 
-  // 2. Base Map: CartoDB Voyager Tiles (Clean maps with English language labels)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    maxZoom: 20,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
-  }).addTo(map);
+  // Add Layer Switcher Control (just like Google Earth)
+  const baseMaps = {
+    "Street Map": streetMap,
+    "Satellite (Esri)": satelliteMap,
+    "Satellite (Google Hybrid)": hybridMap,
+    "Terrain View": terrainMap
+  };
+  L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
   // 3. Custom SVG Marker Icon
   // Designed to match the brand green color (#3a8a48) and support high-quality rendering
