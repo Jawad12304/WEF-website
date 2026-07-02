@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Worldwide Education Foundation</title>
+  <meta name="description" content="Photo gallery showcasing moments of learning, growth, and transformation from WEF's projects across Chitral, Pakistan and Central Asia.">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .header {
+      background: rgba(255, 255, 255, 0.92) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+    .header-logo-text span:first-child { color: var(--clr-primary-dark) !important; }
+    .header-logo-text span:last-child { color: var(--clr-gray-500) !important; }
+    .nav-menu > a, .nav-dropdown > .dropdown-toggle { color: var(--clr-gray-700) !important; }
+    .nav-menu > a:hover, .nav-dropdown:hover > .dropdown-toggle { color: var(--clr-primary) !important; }
+    .hamburger span { background: var(--clr-gray-900) !important; }
+
+    .page-hero {
+      padding: 160px 0 80px;
+      background: linear-gradient(160deg, var(--clr-primary-deeper) 0%, var(--clr-primary-dark) 50%, var(--clr-primary) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(92, 184, 112, 0.15), transparent 60%);
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-hero .container { position: relative; z-index: 1; text-align: center; }
+    .page-hero h1 { font-size: var(--fs-4xl); color: var(--clr-white); margin-bottom: var(--sp-md); }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: var(--fs-md); max-width: 600px; margin: 0 auto; line-height: 1.8; }
+    .page-hero h1::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--clr-primary-light), rgba(255,255,255,0.5));
+      border-radius: var(--radius-full);
+      margin: var(--sp-md) auto 0;
+    }
+    .gallery-page-content { padding: var(--sp-4xl) 0; }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <header class="header" id="main-header">
+    <div class="container">
+      <a href="index.html#home" class="header-logo" id="header-logo" aria-label="Worldwide Education Foundation Home">
+        <img src="assets/images/logo.png" alt="Worldwide Education Foundation Logo" width="52" height="52" loading="eager">
+        <div class="header-logo-text">
+          <span>Worldwide Education Foundation</span>
+          <span>Empowering Through Education</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="dropdown-toggle">About</a>
+          <div class="dropdown-menu">
+            <a href="our-team.html">Our Team</a>
+            <a href="our-mission.html">Our Mission</a>
+            <a href="our-history.html">Our History</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#impact" class="dropdown-toggle">Impact</a>
+          <div class="dropdown-menu">
+            <a href="success-stories.html">Success Stories</a>
+            <a href="annual-reports.html">Annual Reports</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="programs.html" class="dropdown-toggle">Programs</a>
+          <div class="dropdown-menu">
+            <a href="programs.html">All Programs</a>
+            <a href="early-childhood.html">Early Childhood</a>
+            <a href="scholarships.html">Scholarships</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="gallery.html" class="dropdown-toggle">Gallery</a>
+          <div class="dropdown-menu">
+            <a href="gallery.html">Photo Gallery</a>
+            <a href="video-gallery.html">Video Gallery</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="contact.html" class="dropdown-toggle">Contact</a>
+          <div class="dropdown-menu">
+            <a href="contact.html">Get in Touch</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <a href="index.html#donate" class="nav-donate" id="nav-donate-btn">Donate Now</a>
+      </nav>
+      <div class="hamburger" id="hamburger" aria-label="Toggle Navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Our Gallery</h1>
+      <p>Moments of learning, growth, and transformation from our projects across Chitral and Central Asia.</p>
+    </div>
+  </section>
+
+  <section class="gallery-page-content">
+    <div class="container">
+      <div class="gallery-grid">
+        <div class="gallery-item reveal" id="gallery-1">
+          <img src="assets/images/hero-1.png" alt="Early childhood learning classroom in Chitral" width="600" height="400" loading="lazy">
+          <div class="gallery-item-overlay"><span>ECD Learning Center</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.1s;" id="gallery-2">
+          <img src="assets/images/gallery-students.png" alt="Students reading and learning together in Chitral" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Empowered Learners</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.15s;" id="gallery-3">
+          <img src="assets/images/gallery-graduation.png" alt="Graduation ceremony celebrating student achievement" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Graduation Day</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.2s;" id="gallery-4">
+          <img src="assets/images/hero-2.png" alt="Teacher training workshop in progress" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Teacher Training</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.25s;" id="gallery-5">
+          <img src="assets/images/gallery-community.png" alt="Community engagement for education initiatives" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Community Engagement</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.3s;" id="gallery-6">
+          <img src="assets/images/gallery-chitral.png" alt="Beautiful Chitral valley landscape in the Hindu Kush mountains" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Chitral Valley</span></div>
+        </div>
+        <div class="gallery-item reveal" style="transition-delay: 0.35s;" id="gallery-7">
+          <img src="assets/images/hero-3.png" alt="Scholarship recipients in Chitral" width="300" height="300" loading="lazy">
+          <div class="gallery-item-overlay"><span>Scholarship Recipients</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close lightbox">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">←</button>
+    <img id="lightbox-img" src="" alt="Gallery image enlarged view">
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">→</button>
+  </div>
+
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <div class="footer-bottom-info">
+          <p>© 2026 Worldwide Education Foundation. All rights reserved. 501(c)(3) nonprofit — Federal Tax ID 81-2135633.</p>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="Twitter">🐦</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

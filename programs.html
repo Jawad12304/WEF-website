@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Programs — Worldwide Education Foundation</title>
+  <meta name="description" content="Explore all 9 active programs by Worldwide Education Foundation — from Early Childhood Learning Centers to Teacher Training and Scholarships across Chitral, Pakistan.">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .header {
+      background: rgba(255, 255, 255, 0.92) !important;
+      backdrop-filter: blur(24px) saturate(180%) !important;
+      box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+    .header-logo-text span:first-child { color: var(--clr-primary-dark) !important; }
+    .header-logo-text span:last-child { color: var(--clr-gray-500) !important; }
+    .nav-menu > a, .nav-dropdown > .dropdown-toggle { color: var(--clr-gray-700) !important; }
+    .nav-menu > a:hover, .nav-dropdown:hover > .dropdown-toggle { color: var(--clr-primary) !important; }
+    .hamburger span { background: var(--clr-gray-900) !important; }
+
+    .page-hero {
+      padding: 160px 0 80px;
+      background: linear-gradient(160deg, var(--clr-primary-deeper) 0%, var(--clr-primary-dark) 50%, var(--clr-primary) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(92, 184, 112, 0.15), transparent 60%);
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .page-hero .container { position: relative; z-index: 1; text-align: center; }
+    .page-hero h1 { font-size: var(--fs-4xl); color: var(--clr-white); margin-bottom: var(--sp-md); }
+    .page-hero p { color: rgba(255,255,255,0.75); font-size: var(--fs-md); max-width: 600px; margin: 0 auto; line-height: 1.8; }
+    .page-hero h1::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--clr-primary-light), rgba(255,255,255,0.5));
+      border-radius: var(--radius-full);
+      margin: var(--sp-md) auto 0;
+    }
+    .programs-page-content { padding: var(--sp-4xl) 0; }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <header class="header" id="main-header">
+    <div class="container">
+      <a href="index.html#home" class="header-logo" id="header-logo" aria-label="Worldwide Education Foundation Home">
+        <img src="assets/images/logo.png" alt="Worldwide Education Foundation Logo" width="52" height="52" loading="eager">
+        <div class="header-logo-text">
+          <span>Worldwide Education Foundation</span>
+          <span>Empowering Through Education</span>
+        </div>
+      </a>
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="dropdown-toggle">About</a>
+          <div class="dropdown-menu">
+            <a href="our-team.html">Our Team</a>
+            <a href="our-mission.html">Our Mission</a>
+            <a href="our-history.html">Our History</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#impact" class="dropdown-toggle">Impact</a>
+          <div class="dropdown-menu">
+            <a href="success-stories.html">Success Stories</a>
+            <a href="annual-reports.html">Annual Reports</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="programs.html" class="dropdown-toggle">Programs</a>
+          <div class="dropdown-menu">
+            <a href="programs.html">All Programs</a>
+            <a href="early-childhood.html">Early Childhood</a>
+            <a href="scholarships.html">Scholarships</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="gallery.html" class="dropdown-toggle">Gallery</a>
+          <div class="dropdown-menu">
+            <a href="gallery.html">Photo Gallery</a>
+            <a href="video-gallery.html">Video Gallery</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="contact.html" class="dropdown-toggle">Contact</a>
+          <div class="dropdown-menu">
+            <a href="contact.html">Get in Touch</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <a href="index.html#donate" class="nav-donate" id="nav-donate-btn">Donate Now</a>
+      </nav>
+      <div class="hamburger" id="hamburger" aria-label="Toggle Navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Our Programs</h1>
+      <p>9 active projects across Chitral and Central Asia building a foundation for lifelong learning and community empowerment.</p>
+    </div>
+  </section>
+
+  <section class="programs-page-content">
+    <div class="container">
+      <div class="projects-grid">
+
+        <div class="project-card reveal" id="project-eclc">
+          <div class="project-card-image">
+            <img src="assets/images/project-ecd.png" alt="Bright Beginnings Early Childhood Learning Center" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2025</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Bright Beginnings — ECLC</h3>
+            <p>Women-led social entrepreneurial model transforming dedicated spaces in private homes and schools into technology-driven Montessori-based learning environments for children ages 3–5.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Upper Chitral</strong></span>
+              <span>👶 <strong>3,000</strong> Students</span>
+              <span>🏫 <strong>100</strong> Centers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.1s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-model-school.png" alt="Government School Learning Center" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2024</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Government School Learning Centers</h3>
+            <p>Integrating Early Childhood Development and Technology-Assisted English Language labs into primary schools across Upper Chitral for children ages 3–11.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Upper Chitral</strong></span>
+              <span>👦 <strong>2,000</strong> Students</span>
+              <span>🏫 <strong>10</strong> Centers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.2s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-training.png" alt="Government Model School" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2025</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Government Model Schools</h3>
+            <p>Transforming existing classrooms into modern learning spaces where our learning centers are established, serving children ages 6–11 with 25 dedicated teachers.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Upper Chitral</strong></span>
+              <span>👦 <strong>2,000</strong> Students</span>
+              <span>🏫 <strong>10</strong> Centers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-card-image">
+            <img src="assets/images/project-language.png" alt="In-School Language Lab" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2021</span>
+          </div>
+          <div class="project-card-body">
+            <h3>In-School Language Labs</h3>
+            <p>Structured English language learning environment strengthening students' speaking and listening skills through facilitated technology-enabled instructions for ages 6–16.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Upper Chitral</strong></span>
+              <span>👦 <strong>2,000+</strong> Students</span>
+              <span>🔬 <strong>5</strong> Labs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.1s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-scholarship.png" alt="Teachers Training Program" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2026</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Teachers' Training Program</h3>
+            <p>Building teachers' capacity to improve learning outcomes through in-person training at the University of Chitral and digital delivery for teachers in low/no internet settings.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Lower &amp; Upper Chitral</strong></span>
+              <span>👩‍🏫 <strong>300+</strong> Trained</span>
+              <span>🎯 <strong>1,000</strong> by 2030</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.2s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-research.png" alt="Herzing-Daya ECD Research Hub" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2026</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Herzing-Daya Research &amp; Learning Hub</h3>
+            <p>Pakistan's first ECD research hub in a remote mountainous region, dedicated to producing locally grounded evidence on early childhood development and informing national policy.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>University of Chitral</strong></span>
+              <span>👶 <strong>52,000</strong> Children</span>
+              <span>🔬 <strong>Research</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-card-image">
+            <img src="assets/images/project-scholarship.png" alt="Secondary School Scholarships" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2025</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Secondary School Scholarships</h3>
+            <p>Removing financial barriers for underserved students ages 14–16 in low-income private schools, supporting Grade 9 &amp; 10 students across 5 schools with 115 scholarship recipients.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>Upper Chitral</strong></span>
+              <span>👨‍🎓 <strong>115</strong> Students</span>
+              <span>🏫 <strong>5</strong> Schools</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.1s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-skills.png" alt="Rising Stars Undergraduate Scholarship" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2025</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Rising Stars Undergraduate Scholarship</h3>
+            <p>Removing financial barriers to higher education by sponsoring selected students at the American University of Central Asia (AUCA) and UCA in Tajikistan and Kyrgyzstan.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>AUCA &amp; UCA</strong></span>
+              <span>👨‍🎓 <strong>66</strong> Recipients</span>
+              <span>💰 <strong>$120,000</strong> Invested</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal" style="transition-delay: 0.2s;">
+          <div class="project-card-image">
+            <img src="assets/images/project-skills.png" alt="Herzing Training and Skills Development" width="400" height="220" loading="lazy">
+            <span class="project-card-badge">Since 2026</span>
+          </div>
+          <div class="project-card-body">
+            <h3>Herzing Training &amp; Skills Development</h3>
+            <p>Integrated platform for professional development, teachers' training, vocational skills, degree and diploma programs including ECD, hospitality, travel, tourism, and technology pathways.</p>
+            <div class="project-card-meta">
+              <span>📍 <strong>University of Chitral</strong></span>
+              <span>👩‍💼 <strong>Youth</strong> &amp; Job Seekers</span>
+              <span>📜 <strong>Diplomas</strong></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <div class="footer-bottom-info">
+          <p>© 2026 Worldwide Education Foundation. All rights reserved. 501(c)(3) nonprofit — Federal Tax ID 81-2135633.</p>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="Twitter">🐦</a>
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

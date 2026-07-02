@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Early Childhood — Worldwide Education Foundation</title>
+  <meta name="description" content="Learn about our Early Childhood Development programs in Chitral.">
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .header { background: rgba(255, 255, 255, 0.92) !important; backdrop-filter: blur(24px) saturate(180%) !important; box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06) !important; }
+    .header-logo-text span:first-child { color: var(--clr-primary-dark) !important; }
+    .header-logo-text span:last-child { color: var(--clr-gray-500) !important; }
+    .nav-menu > a, .nav-dropdown > .dropdown-toggle { color: var(--clr-gray-700) !important; }
+    .nav-menu > a:hover, .nav-dropdown:hover > .dropdown-toggle { color: var(--clr-primary) !important; }
+    .hamburger span { background: var(--clr-gray-900) !important; }
+    .page-hero { padding: 160px 0 80px; background: linear-gradient(160deg, var(--clr-primary-deeper) 0%, var(--clr-primary-dark) 50%, var(--clr-primary) 100%); position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -200px; right: -200px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(92, 184, 112, 0.15), transparent 60%); }
+    .page-hero::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .page-hero .container { position: relative; z-index: 1; text-align: center; }
+    .page-hero h1 { font-size: var(--fs-4xl); color: var(--clr-white); margin-bottom: var(--sp-md); }
+    .page-hero p { color: rgba(255, 255, 255, 0.75); font-size: var(--fs-md); max-width: 600px; margin: 0 auto; line-height: 1.8; }
+    .page-hero h1::after { content: ''; display: block; width: 60px; height: 4px; background: linear-gradient(90deg, var(--clr-primary-light), rgba(255,255,255,0.5)); border-radius: var(--radius-full); margin: var(--sp-md) auto 0; }
+    .page-content { padding: var(--sp-4xl) 0; min-height: 40vh; }
+    .page-content .content-card { max-width: 800px; margin: 0 auto; background: var(--clr-white); padding: var(--sp-3xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--clr-gray-200); }
+    .page-content .content-card h2 { font-size: var(--fs-2xl); color: var(--clr-primary-dark); margin-bottom: var(--sp-lg); }
+    .page-content .content-card p { color: var(--clr-gray-500); line-height: 1.9; margin-bottom: var(--sp-lg); }
+    .page-content .content-card p:last-child { margin-bottom: 0; }
+    .placeholder-note { display: inline-flex; align-items: center; gap: var(--sp-sm); background: var(--clr-accent-subtle); color: var(--clr-accent-dark); padding: 10px 20px; border-radius: var(--radius-full); font-size: var(--fs-sm); font-weight: 600; margin-bottom: var(--sp-xl); font-family: var(--ff-heading); }
+  </style>
+</head>
+<body>
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+
+  <header class="header" id="main-header">
+    <div class="container">
+      <a href="index.html" class="header-logo" id="header-logo" aria-label="Worldwide Education Foundation Home">
+        <img src="assets/images/logo.png" alt="Worldwide Education Foundation Logo" width="52" height="52" loading="eager">
+        <div class="header-logo-text">
+          <span>Worldwide Education Foundation</span>
+          <span>Empowering Through Education</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="index.html#about" class="dropdown-toggle">About</a>
+          <div class="dropdown-menu">
+            <a href="our-team.html">Our Team</a>
+            <a href="our-mission.html">Our Mission</a>
+            <a href="our-history.html">Our History</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="index.html#impact" class="dropdown-toggle">Impact</a>
+          <div class="dropdown-menu">
+            <a href="success-stories.html">Success Stories</a>
+            <a href="annual-reports.html">Annual Reports</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="programs.html" class="dropdown-toggle">Programs</a>
+          <div class="dropdown-menu">
+            <a href="programs.html">All Programs</a>
+            <a href="early-childhood.html">Early Childhood</a>
+            <a href="scholarships.html">Scholarships</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="gallery.html" class="dropdown-toggle">Gallery</a>
+          <div class="dropdown-menu">
+            <a href="gallery.html">Photo Gallery</a>
+            <a href="video-gallery.html">Video Gallery</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="contact.html" class="dropdown-toggle">Contact</a>
+          <div class="dropdown-menu">
+            <a href="contact.html">Get in Touch</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <a href="index.html#donate" class="nav-donate" id="nav-donate-btn">Donate Now</a>
+      </nav>
+
+      <div class="hamburger" id="hamburger" aria-label="Toggle Navigation" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <h1>Early Childhood Development</h1>
+      <p>Building strong foundations for lifelong learning in the critical early years.</p>
+    </div>
+  </section>
+
+  <section class="page-content">
+    <div class="container">
+      <div class="content-card reveal">
+        <span class="placeholder-note">📝 Content coming soon</span>
+        <h2>Bright Beginnings</h2>
+        <p>Our Bright Beginnings initiative is a women-led social entrepreneurial model transforming dedicated spaces in private homes and schools into technology-driven Montessori-based learning environments for children ages 3-5.</p>
+        <p>Detailed program information and curriculum details will be available soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive ECD Centers Map Section -->
+  <section class="map-section reveal">
+    <div class="container">
+      <div class="map-card">
+        <div class="map-header">
+          <h2>Our ECD Centers Network</h2>
+          <p>Explore the spatial distribution of our active Montessori-based Early Childhood Development centers in Chitral. Click any marker to view location details.</p>
+        </div>
+        <div id="map" role="region" aria-label="Interactive map showing ECD center locations"></div>
+        <div class="map-legend">
+          <div class="legend-item">
+            <span class="legend-icon green-marker"></span>
+            <span class="legend-text">Active ECD Montessori Centers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <div class="footer-bottom-info">
+          <p>© 2026 Worldwide Education Foundation. All rights reserved. 501(c)(3) nonprofit — Federal Tax ID 81-2135633.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet Map JS and Initialization -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/map.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
