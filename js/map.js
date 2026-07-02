@@ -142,6 +142,14 @@ function initECDMap() {
             maxWidth: 300,
             className: 'custom-leaflet-popup'
           });
+
+          // Zoom into the clicked location
+          layer.on('click', (e) => {
+            map.setView(e.latlng, 18, {
+              animate: true,
+              duration: 0.8
+            });
+          });
         }
       }).addTo(map);
       return geojsonLayer;
