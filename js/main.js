@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGalleryLightbox();
   initSmoothScroll();
   initContactForm();
+  initDonationTabs();
 });
 
 /* --- Header Scroll Effect --- */
@@ -33,21 +34,99 @@ function initHeader() {
   onScroll(); // initial check
 }
 
-/* --- Hero Slideshow --- */
+/* --- Hero Glass Slideshow --- */
 function initSlideshow() {
-  const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.hero-dot');
+  const slides = document.querySelectorAll('#hero-slideshow .hero-slide');
+  const textSlides = document.querySelectorAll('.hero-text-slide');
+  const dots = document.querySelectorAll('#hero-slide-dots .slide-dot');
+  if (!slides.length) return;
+
   let current = 0;
   let interval;
+  let activeTypewriterTimeout = null;
 
   function showSlide(index) {
-    slides.forEach((s, i) => {
-      s.classList.toggle('active', i === index);
+    // Deactivate all image slides — resets their Ken Burns animation
+    slides.forEach((s) => {
+      s.classList.remove('active');
+      // Force animation restart by re-triggering reflow
+      void s.offsetWidth;
     });
-    dots.forEach((d, i) => {
-      d.classList.toggle('active', i === index);
+
+    // Deactivate all text slides
+    textSlides.forEach((ts) => {
+      ts.classList.remove('active');
     });
+
+    dots.forEach((d) => d.classList.remove('active'));
+
+    // Activate new image slide
+    slides[index].classList.add('active');
+
+    // Activate new text slide
+    if (textSlides[index]) {
+      textSlides[index].classList.add('active');
+      runSlideTypewriter(textSlides[index]);
+    }
+
+    if (dots[index]) dots[index].classList.add('active');
     current = index;
+  }
+
+  function runSlideTypewriter(activeSlide) {
+    // Clear any pending typewriter timeout
+    if (activeTypewriterTimeout) {
+      clearTimeout(activeTypewriterTimeout);
+    }
+
+    const staticSpan = activeSlide.querySelector('.static-part');
+    const highlightSpan = activeSlide.querySelector('.highlight-part');
+    const cursorSpan = activeSlide.querySelector('.typed-cursor');
+    if (!staticSpan || !highlightSpan || !cursorSpan) return;
+
+    const staticText = staticSpan.getAttribute('data-text');
+    const highlightText = highlightSpan.getAttribute('data-text');
+
+    // Clear both text elements
+    staticSpan.textContent = '';
+    highlightSpan.textContent = '';
+
+    // Deactivate typing state on all cursors first
+    const allCursors = document.querySelectorAll('.typed-cursor');
+    allCursors.forEach(c => c.classList.remove('is-typing'));
+
+    // Move cursor after the static text span first
+    staticSpan.after(cursorSpan);
+    cursorSpan.classList.add('is-typing');
+
+    let staticCharIndex = 0;
+    let highlightCharIndex = 0;
+    const typingSpeed = 35; // Snappy typing to complete full heading inside 3s loop
+
+    function typeStatic() {
+      if (staticCharIndex < staticText.length) {
+        staticSpan.textContent += staticText.charAt(staticCharIndex);
+        staticCharIndex++;
+        activeTypewriterTimeout = setTimeout(typeStatic, typingSpeed);
+      } else {
+        // Move cursor after the highlight span and start typing it
+        highlightSpan.after(cursorSpan);
+        typeHighlight();
+      }
+    }
+
+    function typeHighlight() {
+      if (highlightCharIndex < highlightText.length) {
+        highlightSpan.textContent += highlightText.charAt(highlightCharIndex);
+        highlightCharIndex++;
+        activeTypewriterTimeout = setTimeout(typeHighlight, typingSpeed);
+      } else {
+        cursorSpan.classList.remove('is-typing');
+      }
+    }
+
+    // Start typing after slide settles (200ms delay)
+    activeTypewriterTimeout = setTimeout(typeStatic, 200);
   }
 
   function nextSlide() {
@@ -55,24 +134,24 @@ function initSlideshow() {
   }
 
   function startAutoPlay() {
-    interval = setInterval(nextSlide, 5000);
+    interval = setInterval(nextSlide, 3000); // 3 seconds interval
   }
 
   function stopAutoPlay() {
     clearInterval(interval);
   }
 
-  // Dot navigation
-  dots.forEach((dot, i) => {
+  // Dot click navigation
+  dots.forEach((dot) => {
     dot.addEventListener('click', () => {
       stopAutoPlay();
-      showSlide(i);
+      showSlide(parseInt(dot.dataset.slide, 10));
       startAutoPlay();
     });
   });
 
   // Pause on hover
-  const hero = document.getElementById('hero');
+  const hero = document.getElementById('home');
   if (hero) {
     hero.addEventListener('mouseenter', stopAutoPlay);
     hero.addEventListener('mouseleave', startAutoPlay);
@@ -142,10 +221,11 @@ function initCounterAnimation() {
     { threshold: 0.3 }
   );
 
+  // Observe both old and new impact sections
   const impactSection = document.getElementById('impact');
-  if (impactSection) {
-    observer.observe(impactSection);
-  }
+  const impactBar = document.getElementById('impact-bar');
+  if (impactSection) observer.observe(impactSection);
+  if (impactBar) observer.observe(impactBar);
 }
 
 /* --- Mobile Menu --- */
@@ -230,6 +310,15 @@ function initGalleryLightbox() {
       });
     }
   });
+
+  const globalMap = document.getElementById('globally-map-img');
+  if (globalMap) {
+    const mapWrapper = globalMap.closest('.globally-map-wrapper');
+    const trigger = mapWrapper || globalMap;
+    trigger.addEventListener('click', () => {
+      openLightbox(globalMap.src);
+    });
+  }
 
   function openLightbox(src) {
     lightboxImg.src = src;
@@ -357,3 +446,36 @@ function initContactForm() {
     }, 1500);
   });
 }
+
+/* --- Interactive Donation Amount Selector --- */
+function initDonationTabs() {
+  const tabs = document.querySelectorAll('.donate-amount-tab');
+  const impactText = document.getElementById('donation-impact-text');
+  const ctaBtn = document.getElementById('donate-cta-btn');
+  if (!tabs.length || !impactText || !ctaBtn) return;
+
+  const impacts = {
+    '25': 'Funds learning supplies and reading books for one child in Chitral.',
+    '50': 'Funds technology licenses and English learning software for two students.',
+    '100': 'Funds Montessori classroom materials and learning resources for a learning center.',
+    '250': 'Funds professional training certification for one local teacher at the university hub.',
+    '500': 'Funds a partial undergraduate scholarship for a student at UCA or AUCA.'
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs
+      tabs.forEach(t => t.classList.remove('active'));
+      // Add active class to clicked tab
+      tab.classList.add('active');
+
+      const amount = tab.getAttribute('data-amount');
+      impactText.textContent = impacts[amount];
+
+      // Update CTA mailto link with chosen amount
+      ctaBtn.href = `mailto:info@worldwideeducationfoundation.org?subject=Donation Inquiry ($${amount})&body=Hello, I would like to make a donation of $${amount} to support the Worldwide Education Foundation. Please provide the bank transfer details.`;
+    });
+  });
+}
+
+

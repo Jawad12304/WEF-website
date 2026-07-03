@@ -32,12 +32,12 @@ function initECDMap() {
     attribution: 'Map data &copy; Google'
   });
 
-  // Initialize Map with default Street Map view
+  // Initialize Map with Google Hybrid view by default (richer, satellite feel)
   const map = L.map('map', {
     zoomSnap: 0.5,
     zoomDelta: 0.5,
     scrollWheelZoom: false, // Disable scroll zoom by default for better user scrolling experience
-    layers: [streetMap]
+    layers: [hybridMap]
   }).setView([35.85, 71.8], 10);
 
   // Enable scroll zoom on click / focus to make it interactive when intended
@@ -50,15 +50,44 @@ function initECDMap() {
 
   // Add Layer Switcher Control (just like Google Earth)
   const baseMaps = {
+    "Satellite (Google Hybrid)": hybridMap,
     "Street Map": streetMap,
     "Satellite (Esri)": satelliteMap,
-    "Satellite (Google Hybrid)": hybridMap,
     "Terrain View": terrainMap
   };
   L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
+  // Add "See All" Reset View Control
+  const SeeAllControl = L.Control.extend({
+    options: { position: 'topleft' },
+    onAdd: function (map) {
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.style.backgroundColor = '#ffffff';
+      container.style.padding = '8px 12px';
+      container.style.cursor = 'pointer';
+      container.style.fontWeight = '600';
+      container.style.color = '#121417';
+      container.style.fontFamily = 'Inter, sans-serif';
+      container.style.boxShadow = '0 2px 8px rgba(18, 20, 23, 0.1)';
+      container.innerHTML = 'View All Centers';
+      container.title = 'Reset Map View';
+
+      container.onmouseover = function() { container.style.backgroundColor = '#f4f5f6'; };
+      container.onmouseout = function() { container.style.backgroundColor = '#ffffff'; };
+
+      container.onclick = function (e) {
+        L.DomEvent.stopPropagation(e);
+        if (window.mapBounds) {
+          map.fitBounds(window.mapBounds, { padding: [30, 30], animate: true, duration: 1.0 });
+        }
+      }
+      return container;
+    }
+  });
+  map.addControl(new SeeAllControl());
+
   // 3. Custom SVG Marker Icon
-  // Designed to match the brand green color (#3a8a48) and support high-quality rendering
+  // Designed to match the brand green color (#0e611d) and support high-quality rendering
   const customIcon = L.divIcon({
     className: 'custom-marker-container',
     html: `
@@ -67,12 +96,12 @@ function initECDMap() {
           <!-- Outer Shadow/Glow -->
           <ellipse cx="14" cy="31" rx="6" ry="2" fill="rgba(0,0,0,0.2)" />
           <!-- Pin Shape -->
-          <path d="M14 0C6.268 0 0 6.268 0 14C0 24.5 14 32 14 32C14 32 28 24.5 28 14C28 6.268 21.732 0 14 0Z" fill="#3a8a48" />
+          <path d="M14 0C6.268 0 0 6.268 0 14C0 24.5 14 32 14 32C14 32 28 24.5 28 14C28 6.268 21.732 0 14 0Z" fill="#0e611d" />
           <!-- Outer Ring/Border -->
           <path d="M14 1C6.82 1 1 6.82 1 14C1 23.75 14 30.85 14 30.85C14 30.85 27 23.75 27 14C27 6.82 21.18 1 14 1Z" fill="none" stroke="#ffffff" stroke-width="1.5" />
           <!-- Inner Dot -->
           <circle cx="14" cy="13" r="5.5" fill="#ffffff" />
-          <circle cx="14" cy="13" r="3" fill="#d97b2a" />
+          <circle cx="14" cy="13" r="3" fill="#c4691c" />
         </svg>
       </div>
     `,
@@ -91,10 +120,10 @@ function initECDMap() {
       // Create GeoJSON border layer styled with brand accent orange dashed outline
       const borderLayer = L.geoJSON(borderData, {
         style: {
-          color: '#d97b2a', // brand accent orange
+          color: '#c4691c', // brand accent orange
           weight: 2.5,
           opacity: 0.85,
-          fillColor: '#d97b2a',
+          fillColor: '#c4691c',
           fillOpacity: 0.04,
           dashArray: '6, 6',
           interactive: false // Clicks pass through border layer to markers
@@ -168,12 +197,14 @@ function initECDMap() {
   Promise.all([fetchBorder, fetchLocations]).then(([borderLayer, geojsonLayer]) => {
     if (borderLayer && borderLayer.getBounds().isValid()) {
       // Fit to Chitral District border for full-district context
-      map.fitBounds(borderLayer.getBounds(), {
+      window.mapBounds = borderLayer.getBounds();
+      map.fitBounds(window.mapBounds, {
         padding: [30, 30]
       });
     } else if (geojsonLayer && geojsonLayer.getBounds().isValid()) {
       // Fallback: Fit to markers if border failed to load
-      map.fitBounds(geojsonLayer.getBounds(), {
+      window.mapBounds = geojsonLayer.getBounds();
+      map.fitBounds(window.mapBounds, {
         padding: [40, 40],
         maxZoom: 13
       });
