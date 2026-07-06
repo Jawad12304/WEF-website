@@ -1978,10 +1978,14 @@ h6 {
 }
 
 .wef-globally .impact-card-icon {
-  background: var(--clr-primary-lighter) !important;
+  background: transparent !important;
   color: var(--clr-primary-dark) !important;
-  font-size: 32px !important;
+  font-size: 100px !important;
   margin-bottom: var(--sp-sm) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 .wef-globally .impact-number {
@@ -2034,8 +2038,12 @@ h6 {
 }
 
 .impact-card-icon {
-  font-size: 42px;
+  font-size: 100px;
   margin-bottom: var(--sp-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .impact-number {
@@ -4172,9 +4180,14 @@ h6 {
 }
 
 .about-card-icon-container,
-.impact-card-icon,
 .donate-card-icon {
   background: var(--clr-primary-lighter) !important;
+  color: var(--clr-primary-dark) !important;
+  border-radius: var(--radius-full);
+  box-shadow: none !important;
+}
+.impact-card-icon {
+  background: transparent !important;
   color: var(--clr-primary-dark) !important;
   border-radius: var(--radius-full);
   box-shadow: none !important;
