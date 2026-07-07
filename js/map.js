@@ -150,20 +150,24 @@ function initECDMap() {
           <div class="eclc-badge" style="color: ${colors.fill}; background: ${colors.fill}15;">
             ${colors.label}
           </div>
-          <h3 class="eclc-title">${props.name || 'ECLC Center'}</h3>
+          <h3 class="eclc-title">ECLC Center</h3>
           
           <div class="eclc-details-grid">
             <div class="eclc-detail-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>${props.village || 'Unknown Location'}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span><strong>Candidate:</strong> ${props.name || 'N/A'}</span>
             </div>
             <div class="eclc-detail-item">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              <span><strong>Sponsored by:</strong> ${props.sponsor || 'N/A'}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span><strong>Village:</strong> ${props.village || 'Unknown Location'}</span>
             </div>
             <div class="eclc-detail-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>${latlng.lat.toFixed(4)}°, ${latlng.lng.toFixed(4)}°</span>
+              <span><strong>Sponsored by:</strong> ${props.sponsor || 'N/A'}</span>
+            </div>
+            <div class="eclc-detail-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              <span><strong>Coordinates:</strong> ${latlng.lat.toFixed(4)}°, ${latlng.lng.toFixed(4)}°</span>
             </div>
           </div>
         </div>
