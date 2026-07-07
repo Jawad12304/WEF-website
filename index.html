@@ -1274,15 +1274,52 @@
     <div class="container">
       <div class="map-card">
         <div class="map-header">
-          <h2>Our ECD Centers Network</h2>
-          <p>Explore the spatial distribution of our active Montessori-based Early Childhood Development centers in
-            Chitral, Pakistan. Click any marker to view location details.</p>
+          <h2>Our ECLC Centers Network</h2>
+          <p>Explore the spatial distribution of our <strong id="legend-total-count">88</strong> active Early Childhood Learning Centers across Chitral, Pakistan. Click any marker to view details, or use the filters below to explore by category.</p>
         </div>
         <div id="map" role="region" aria-label="Interactive map showing ECD center locations"></div>
-        <div class="map-legend">
-          <div class="legend-item">
-            <span class="legend-icon green-marker"></span>
-            <span class="legend-text">Active ECD Montessori Centers</span>
+
+        <!-- Map Controls: Donor Search -->
+        <div class="map-controls-panel">
+          <label for="donor-select" class="donor-search-label">Filter by Sponsor:</label>
+          <div class="donor-select-wrapper">
+            <svg class="donor-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <select id="donor-select" class="donor-select-input" onchange="window.toggleSponsor(this.value)">
+              <option value="All">All Sponsors</option>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Category Filter Legend -->
+        <div class="map-legend-filters">
+          <div class="legend-filters-header">
+            <span class="legend-filters-title">Filter by Category</span>
+          </div>
+          <div class="legend-filters-grid">
+            <button class="legend-filter-btn legend-filter-all legend-filter-active-all" id="legend-filter-all" onclick="toggleAllCategories()">
+              All Centers
+            </button>
+            <button class="legend-filter-btn" data-filter-category="Entrepreneurial Model" onclick="toggleMapCategory('Entrepreneurial Model')">
+              <span class="legend-filter-dot" style="background: #0e611d;"></span>
+              <span class="legend-filter-label">Entrepreneurial Models</span>
+              <span class="legend-filter-count" id="legend-count-entrepreneurial-model">0</span>
+            </button>
+            <button class="legend-filter-btn" data-filter-category="Government School" onclick="toggleMapCategory('Government School')">
+              <span class="legend-filter-dot" style="background: #1a56db;"></span>
+              <span class="legend-filter-label">Government Schools</span>
+              <span class="legend-filter-count" id="legend-count-government-school">0</span>
+            </button>
+            <button class="legend-filter-btn" data-filter-category="Private School" onclick="toggleMapCategory('Private School')">
+              <span class="legend-filter-dot" style="background: #9333ea;"></span>
+              <span class="legend-filter-label">Private Schools</span>
+              <span class="legend-filter-count" id="legend-count-private-school">0</span>
+            </button>
+            <button class="legend-filter-btn" data-filter-category="Elementary School" onclick="toggleMapCategory('Elementary School')">
+              <span class="legend-filter-dot" style="background: #dc6803;"></span>
+              <span class="legend-filter-label">Elementary Schools</span>
+              <span class="legend-filter-count" id="legend-count-elementary-school">0</span>
+            </button>
           </div>
         </div>
       </div>
