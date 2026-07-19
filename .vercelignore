@@ -1,0 +1,5 @@
+# Vercel serves static files as-is and does not execute PHP — without this,
+# the admin/ folder's .php source (including DB config structure) would be
+# served as plain text to anyone who requested the URL. The admin app is
+# deployed separately, to Hostinger, not through this Vercel project.
+admin/

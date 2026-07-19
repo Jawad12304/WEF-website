@@ -13,7 +13,53 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothScroll();
   initContactForm();
   initDonationTabs();
+  initActiveNav();
+  initNewsletterForm();
+  initCompareSlider();
 });
+
+/* --- Current-Page Nav Indicator ---
+   index.html highlights nav items by scroll position instead (see
+   initSmoothScroll's scroll-spy) since it's a single-page section flow.
+   Everywhere else, mark the nav link(s) matching the current file, and
+   the parent dropdown toggle, as active. Program detail pages aren't in
+   the nav directly, so they map up to their category's hub page. */
+function initActiveNav() {
+  const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (!currentPage || currentPage === 'index.html') return;
+
+  const categoryParent = {
+    'bright-beginnings.html': 'early-childhood.html',
+    'learning-centers.html': 'early-childhood.html',
+    'model-schools.html': 'early-childhood.html',
+    'language-labs.html': 'programs.html',
+    'teacher-training.html': 'programs.html',
+    'research-hub.html': 'programs.html',
+    'skills-development.html': 'programs.html',
+    'secondary-scholarships.html': 'scholarships.html',
+    'rising-stars.html': 'scholarships.html',
+  };
+  const effectivePage = categoryParent[currentPage] || currentPage;
+
+  const navLinks = document.querySelectorAll(
+    '.nav-menu > a, .nav-dropdown > .dropdown-toggle, .dropdown-menu a'
+  );
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute('href');
+    if (!href) return;
+    const hrefPage = href.split('#')[0].toLowerCase();
+    if (!hrefPage || hrefPage === 'index.html') return;
+    if (hrefPage === currentPage || hrefPage === effectivePage) {
+      link.classList.add('active');
+      const dropdown = link.closest('.nav-dropdown');
+      if (dropdown) {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        if (toggle) toggle.classList.add('active');
+      }
+    }
+  });
+}
 
 /* --- Header Scroll Effect --- */
 function initHeader() {
@@ -372,51 +418,65 @@ function initGalleryLightbox() {
   });
 }
 
-/* --- Smooth Scroll --- */
+/* --- Smooth Scroll ---
+   Nav/footer links use both bare "#hash" and "page.html#hash" forms
+   (dropdown links need the page prefix so they work from other pages).
+   Only intercept a click when the hash target actually exists on the
+   current page — otherwise let the browser navigate there normally. */
 function initSmoothScroll() {
-  const links = document.querySelectorAll('a[href^="#"]');
+  const links = document.querySelectorAll('a[href*="#"]');
 
   links.forEach((link) => {
+    const href = link.getAttribute('href');
+    const hashIndex = href.indexOf('#');
+    if (hashIndex === -1) return;
+    const hash = href.slice(hashIndex);
+    if (hash === '#') return;
+
+    let target;
+    try {
+      target = document.querySelector(hash);
+    } catch (err) {
+      return;
+    }
+    if (!target) return;
+
     link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      if (href === '#') return;
       e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        const headerOffset = 80;
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     });
   });
 
-  // Active nav link highlighting
+  // Active nav link highlighting (scroll-spy), matched by hash fragment
+  // alone so it works regardless of the "page.html#hash" prefix.
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+  const navLinks = document.querySelectorAll('.nav-menu a[href*="#"]');
 
-  window.addEventListener(
-    'scroll',
-    () => {
-      let current = '';
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 120;
-        if (window.scrollY >= sectionTop) {
-          current = section.getAttribute('id');
-        }
-      });
-      navLinks.forEach((link) => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-          link.classList.add('active');
-        }
-      });
-    },
-    { passive: true }
-  );
+  if (sections.length && navLinks.length) {
+    window.addEventListener(
+      'scroll',
+      () => {
+        let current = '';
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 120;
+          if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+        navLinks.forEach((link) => {
+          const linkHash = link.getAttribute('href').split('#')[1];
+          link.classList.toggle('active', Boolean(current) && linkHash === current);
+        });
+      },
+      { passive: true }
+    );
+  }
 }
 
 /* --- Contact Form --- */
@@ -447,9 +507,134 @@ function initContactForm() {
   });
 }
 
+/* --- Footer Newsletter Form --- */
+function initNewsletterForm() {
+  const form = document.querySelector('.footer-newsletter-form');
+  if (!form) return;
+
+  const input = form.querySelector('input[type="email"]');
+  const button = form.querySelector('button');
+  if (!input || !button) return;
+
+  const originalLabel = button.textContent;
+  const errorColor = getComputedStyle(document.documentElement).getPropertyValue('--clr-error').trim() || '#e02424';
+
+  button.addEventListener('click', () => {
+    const email = input.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!isValid) {
+      input.focus();
+      input.style.borderColor = errorColor;
+      setTimeout(() => { input.style.borderColor = ''; }, 1500);
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = '…';
+
+    setTimeout(() => {
+      button.textContent = '✓';
+      input.value = '';
+      input.placeholder = 'Thanks for subscribing!';
+
+      setTimeout(() => {
+        button.textContent = originalLabel;
+        button.disabled = false;
+        input.placeholder = 'Your email address';
+      }, 2500);
+    }, 800);
+  });
+}
+
+/* --- Before / After Comparison Slider ---
+   Builds itself from a bare <div class="compare-slider" data-before="..."
+   data-before-label="Before" data-after="..." data-after-label="After">.
+   Drag, click, or use the Left/Right arrow keys (Home/End for the ends). */
+function initCompareSlider() {
+  const sliders = document.querySelectorAll('.compare-slider');
+  if (!sliders.length) return;
+
+  sliders.forEach((el) => {
+    const beforeSrc = el.dataset.before;
+    const afterSrc = el.dataset.after;
+    if (!beforeSrc || !afterSrc) return;
+
+    const beforeLabel = el.dataset.beforeLabel || 'Before';
+    const afterLabel = el.dataset.afterLabel || 'After';
+    const beforeAlt = el.dataset.beforeAlt || beforeLabel;
+    const afterAlt = el.dataset.afterAlt || afterLabel;
+
+    el.innerHTML = `
+      <img class="compare-slider-img" src="${afterSrc}" alt="${afterAlt}" loading="lazy">
+      <div class="compare-slider-before-wrap">
+        <img class="compare-slider-img" src="${beforeSrc}" alt="${beforeAlt}" loading="lazy">
+      </div>
+      <span class="compare-slider-label compare-slider-label-before">${beforeLabel}</span>
+      <span class="compare-slider-label compare-slider-label-after">${afterLabel}</span>
+      <div class="compare-slider-handle">
+        <div class="compare-slider-handle-line"></div>
+        <div class="compare-slider-handle-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>
+          </svg>
+        </div>
+      </div>
+    `;
+
+    el.setAttribute('role', 'slider');
+    el.setAttribute('aria-label', `Before and after comparison: ${beforeLabel} versus ${afterLabel}`);
+    el.setAttribute('aria-valuemin', '0');
+    el.setAttribute('aria-valuemax', '100');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+
+    let pos = 50;
+
+    function setPos(value) {
+      pos = Math.min(100, Math.max(0, value));
+      el.style.setProperty('--compare-pos', pos + '%');
+      el.setAttribute('aria-valuenow', String(Math.round(pos)));
+    }
+
+    function posFromClientX(clientX) {
+      const rect = el.getBoundingClientRect();
+      return ((clientX - rect.left) / rect.width) * 100;
+    }
+
+    let dragging = false;
+
+    el.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+      setPos(posFromClientX(e.clientX));
+    });
+
+    el.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      setPos(posFromClientX(e.clientX));
+    });
+
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((evt) => {
+      el.addEventListener(evt, () => { dragging = false; });
+    });
+
+    el.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 20 : 5;
+      if (e.key === 'ArrowLeft') { setPos(pos - step); e.preventDefault(); }
+      else if (e.key === 'ArrowRight') { setPos(pos + step); e.preventDefault(); }
+      else if (e.key === 'Home') { setPos(0); e.preventDefault(); }
+      else if (e.key === 'End') { setPos(100); e.preventDefault(); }
+    });
+
+    setPos(50);
+  });
+}
+
 /* --- Interactive Donation Amount Selector --- */
 function initDonationTabs() {
   const tabs = document.querySelectorAll('.donate-amount-tab');
+  const customToggle = document.getElementById('donate-custom-toggle');
+  const customWrap = document.getElementById('donate-custom-amount');
+  const customInput = document.getElementById('donate-custom-input');
   const impactText = document.getElementById('donation-impact-text');
   const ctaBtn = document.getElementById('donate-cta-btn');
   if (!tabs.length || !impactText || !ctaBtn) return;
@@ -461,6 +646,18 @@ function initDonationTabs() {
     '250': 'Funds professional training certification for one local teacher at the university hub.',
     '500': 'Funds a partial undergraduate scholarship for a student at UCA or AUCA.'
   };
+  const customImpactDefault = 'Choose your own amount — every dollar goes directly toward WEF\'s active programs in Chitral and Central Asia.';
+
+  function updateDonation(amount) {
+    const value = Math.max(1, Math.round(Number(amount) || 0));
+    impactText.textContent = impacts[String(value)] || customImpactDefault;
+    ctaBtn.href = `mailto:info@worldwideeducationfoundation.org?subject=Donation Inquiry ($${value})&body=Hello, I would like to make a donation of $${value} to support the Worldwide Education Foundation. Please provide the bank transfer details.`;
+  }
+
+  function deactivateCustom() {
+    if (customToggle) customToggle.classList.remove('active');
+    if (customWrap) customWrap.classList.remove('active');
+  }
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -468,14 +665,35 @@ function initDonationTabs() {
       tabs.forEach(t => t.classList.remove('active'));
       // Add active class to clicked tab
       tab.classList.add('active');
+      deactivateCustom();
 
-      const amount = tab.getAttribute('data-amount');
-      impactText.textContent = impacts[amount];
-
-      // Update CTA mailto link with chosen amount
-      ctaBtn.href = `mailto:info@worldwideeducationfoundation.org?subject=Donation Inquiry ($${amount})&body=Hello, I would like to make a donation of $${amount} to support the Worldwide Education Foundation. Please provide the bank transfer details.`;
+      updateDonation(tab.getAttribute('data-amount'));
     });
   });
+
+  if (customToggle && customWrap && customInput) {
+    customToggle.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      customToggle.classList.add('active');
+      customWrap.classList.add('active');
+      customInput.focus();
+
+      if (customInput.value && Number(customInput.value) > 0) {
+        updateDonation(customInput.value);
+      } else {
+        impactText.textContent = customImpactDefault;
+        ctaBtn.href = 'mailto:info@worldwideeducationfoundation.org?subject=Donation Inquiry&body=Hello, I would like to make a donation to support the Worldwide Education Foundation. Please provide the bank transfer details.';
+      }
+    });
+
+    customInput.addEventListener('input', () => {
+      if (customInput.value && Number(customInput.value) > 0) {
+        updateDonation(customInput.value);
+      } else {
+        impactText.textContent = customImpactDefault;
+      }
+    });
+  }
 }
 
 

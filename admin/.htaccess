@@ -1,0 +1,2 @@
+# Prevent directory listing across the whole admin app
+Options -Indexes
